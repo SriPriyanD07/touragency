@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .auth-container {
+        max-width: 400px;
+        width: 90%;
+        margin: 50px auto;
+        padding: 30px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+        position: relative;
+    }
+    
+    .password-wrapper {
+        position: relative;
+        width: 100%;
+    }
+    
+    .password-toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #666;
+        z-index: 2;
+        padding: 8px;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .password-toggle:hover {
+        color: #39FF14;
+    }
+    
+    .auth-container h2 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+        font-weight: 600;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 10px 35px 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 15px;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    
+    .form-control:focus {
+        border-color: #39FF14;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(57, 255, 20, 0.2);
+    }
+    
+    .btn-primary {
+        background-color: #39FF14;
+        color: #000;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s;
+        margin-top: 10px;
+    }
+    
+    .btn-primary:hover {
+        background-color: #2ecc40;
+    }
+    
+    .auth-footer {
+        margin-top: 20px;
+        text-align: center;
+        color: #666;
+    }
+    
+    .auth-footer a {
+        color: #39FF14;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    
+    .auth-footer a:hover {
+        text-decoration: underline;
+    }
+    
+    .error-message {
+        color: #e74c3c;
+        background-color: #fde8e8;
+        padding: 10px 15px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        border: 1px solid #f5c6cb;
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Login to Your Account</h2>
+    
+    {% if form.errors %}
+        <div class="error-message">
+            Your username and password didn't match. Please try again.
+        </div>
+    {% endif %}
+    
+    <form method="post" action="{% url 'tours:login' %}">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="username">Username or Email</label>
+            <input type="text" id="username" name="username" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" name="password" class="form-control" required>
+                <span class="password-toggle">
+                    <i class="fas fa-eye"></i>
+                </span>
+            </div>
+        </div>
+        
+        <input type="hidden" name="next" value="{{ next }}">
+        
+        <button type="submit" class="btn-primary">Login</button>
+        
+        <div class="auth-footer">
+            Don't have an account? <a href="{% url 'tours:register' %}">Register here</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const passwordInput = document.getElementById('password');
+    const togglePassword = document.querySelector('.password-toggle i');
+    
+    if (togglePassword && passwordInput) {
+        togglePassword.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle eye icon
+            if (type === 'password') {
+                togglePassword.classList.remove('fa-eye-slash');
+                togglePassword.classList.add('fa-eye');
+            } else {
+                togglePassword.classList.remove('fa-eye');
+                togglePassword.classList.add('fa-eye-slash');
+            }
+            
+            // Keep focus on the password field
+            passwordInput.focus();
+        });
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,210 @@
+body {
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    background: #111;
+    color: #f4f4f4;
+    text-align: center;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+h1, h2, h3 {
+    color: #39FF14;
+    margin-bottom: 16px;
+    text-shadow: 0 2px 8px #000;
+}
+
+ul {
+    background: #181818;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #000a;
+    max-width: 600px;
+    margin: 24px auto;
+    padding: 24px 0;
+    list-style: none;
+}
+
+ul li {
+    padding: 12px 0;
+    border-bottom: 1px solid #222;
+    font-size: 1.1em;
+}
+ul li:last-child {
+    border-bottom: none;
+}
+
+button, .btn {
+    background: linear-gradient(90deg, #39FF14 0%, #1fa055 100%);
+    color: #111;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 32px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 18px 0 0 0;
+    box-shadow: 0 2px 8px #000a;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+button:hover, .btn:hover {
+    background: linear-gradient(90deg, #1fa055 0%, #39FF14 100%);
+    box-shadow: 0 4px 16px #39FF1444;
+}
+
+form {
+    background: #181818;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px #000a;
+    max-width: 400px;
+    margin: 24px auto;
+    padding: 32px 24px 24px 24px;
+    text-align: left;
+}
+form label {
+    color: #3cb371; /* Leaf Green */
+    font-weight: 600;
+}
+form input, form textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 18px 0;
+    border: 1px solid #3cb371;
+    border-radius: 6px;
+    font-size: 1em;
+    background: #fafafa;
+    color: #333333;
+    transition: border 0.2s;
+}
+form input:focus, form textarea:focus {
+    border: 1.5px solid #3cb371;
+    outline: none;
+}
+
+img {
+    width: 220px;
+    height: 220px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 12px #000a;
+    background: #181818;
+    border: 2px solid #39FF14;
+}
+
+.centered-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 24px 0;
+}
+
+.tours-table {
+    width: 90%;
+    max-width: 800px;
+    margin: 32px auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #181818;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px #000a;
+}
+.tours-table th {
+    background: linear-gradient(90deg, #39FF14 0%, #1fa055 100%);
+    color: #fff;
+}
+img {
+    width: 220px;
+    height: 220px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 12px #6a057288;
+    background: #3b185f;
+    border: 2px solid #a4508b;
+}
+
+.centered-content {
+    margin: 20px auto;
+}
+
+.tours-table {
+    width: 90%;
+    max-width: 800px;
+    margin: 32px auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #181818;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px #39FF1444;
+}
+.tours-table th {
+    background: linear-gradient(90deg, #a4508b 0%, #6a0572 100%);
+    color: #fff;
+    padding: 16px 8px;
+    font-size: 1.1em;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #39FF14;
+}
+.tours-table td {
+    padding: 14px 8px;
+    color: #ec0707; /* Light gray for better visibility */
+    font-size: 1em;
+    font-weight: 500; /* Slightly bolder text */
+    border-bottom: 1px solid #5f4b8b;
+}
+.tours-table tr:last-child td {
+    border-bottom: none;
+}
+.tours-table tbody tr:nth-child(even) {
+    background: #2a2a2a; /* Slightly lighter than before for better contrast */
+}
+.tours-table tbody tr:hover {
+    background: #39FF1433; /* Slightly more visible hover effect */
+    transition: background 0.2s;
+    color: #fff; /* Ensure text stays white on hover */
+}
+.tours-table td[colspan] {
+    text-align: center;
+    color: #ff5e13; /* Sunset Orange */
+    font-style: italic;
+    background: #222;
+}
+
+.tours-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 28px;
+    max-width: 1100px;
+    margin: 36px auto 0 auto;
+    padding: 0 10px 40px 10px;
+}
+.tour-card {
+    background: linear-gradient(135deg, #5f4b8b 80%, #2e003e 100%);
+    border-radius: 16px;
+    box-shadow: 0 2px 12px #2e003e55;
+    padding: 24px 18px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: box-shadow 0.2s, transform 0.2s;
+    border: 1.5px solid #39FF14;
+}
+.tour-card:hover {
+    box-shadow: 0 8px 24px #39FF1488;
+    transform: translateY(-4px) scale(1.03);
+    border-color: #39FF14;
+}
+.tour-card-header {
+    font-size: 1.15em;
+    font-weight: 700;
+    color: #39FF14; /* Neon Green */
+    margin-bottom: 10px;
+    text-shadow: 0 2px 8px #000;
+}
+.tour-card-body {
+    font-size: 1em;
+    color: #f4f4f4; /* White */
+}
+.tour-card-body div {
+    margin: 6px 0;
+}

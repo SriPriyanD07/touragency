@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="cost-tier-detail" style="max-width:500px;margin:40px auto;padding:32px 24px;background:#fff;border-radius:12px;box-shadow:0 2px 12px #0002;text-align:center;">
+    <h2>Cost Tier for {{ orgin_country }} → {{ destination_country }}</h2>
+    <p><strong>Mode of Transport:</strong> {{ mode_of_transport }}</p>
+    <p><strong>Number of Nights:</strong> {{ number_of_nights }}</p>
+    <div style="margin:40px 0;">
+        {% if tier == 'Economic' %}
+            <button class="btn" style="background:#3cb371;color:#fff;font-size:1.3em;padding:20px 40px;cursor:default;">Your cost for the package is ${{ economic }} USD only</button>
+        {% elif tier == 'Moderate' %}
+            <button class="btn" style="background:#2196f3;color:#fff;font-size:1.3em;padding:20px 40px;cursor:default;">Your cost for the package is ${{ moderate }} USD only</button>
+        {% elif tier == 'Luxury' %}
+            <button class="btn" style="background:#ffd700;color:#333;font-size:1.3em;padding:20px 40px;cursor:default;">Your cost for the package is ${{ luxury }} USD only</button>
+        {% else %}
+            <button class="btn" style="background:#aaa;color:#fff;font-size:1.3em;padding:20px 40px;cursor:default;">Cost data not available</button>
+        {% endif %}
+    </div>
+    <div style="margin:32px 0 0 0;">
+        <a href="/data" class="btn" style="background:#333;color:#fff;">Back to Tours</a>
+    </div>
+    <div style="margin-top:40px;font-size:1.1em;color:#666;">
+        <strong>Note:</strong> Soon, booking features will be provided!
+    </div>
+</div>
+{% endblock %}

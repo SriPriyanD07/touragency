@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - TourAgency</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    {% load static %}
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+
+        .neumorphic-card {
+            background-color: #252525;
+            width: 100%;
+            max-width: 400px;
+            margin: 1rem;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: none;
+            border: 1px solid #333;
+        }
+
+        .neumorphic-card__header {
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            font-weight: 500;
+            text-align: center;
+            color: #39FF14;
+            margin-bottom: 1.5rem;
+        }
+
+        .neumorphic-form {
+            margin: 2rem 0;
+        }
+
+        .neumorphic-input-wrapper {
+            width: 100%;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .neumorphic-input-wrapper label {
+            font-size: 0.9rem;
+            font-weight: 400;
+            margin-left: 0.8rem;
+            margin-bottom: 0.5rem;
+            color: #a0a0a0;
+        }
+
+        .neumorphic-input-wrapper input {
+            border: 1px solid #333;
+            outline: none;
+            background: #2a2a2a;
+            padding: 0.8rem 1.1rem;
+            border-radius: 20px;
+            font-size: 1rem;
+            color: #e0e0e0;
+            box-shadow: none;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .neumorphic-input-wrapper input:focus {
+            box-shadow:
+                inset 5px 5px 11px rgba(0, 0, 0, 0.2),
+                inset -5px -5px 11px rgba(255, 255, 255, 0.75);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #a0a0a0;
+            z-index: 2;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #2a2a2a;
+            border: 1px solid #333;
+            transition: all 0.2s ease;
+        }
+
+        .password-toggle:active {
+            box-shadow:
+                inset 3px 3px 6px rgba(0, 0, 0, 0.1),
+                inset -3px -3px 6px rgba(255, 255, 255, 0.8);
+        }
+
+        .btn-primary {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 0.9rem;
+            background: #39FF14;
+            border: none;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #2ecc40;
+            transform: translateY(-2px);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .auth-footer a {
+            color: #39FF14;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+            color: #2ecc40;
+        }
+
+        .error-message {
+            background: rgba(255, 0, 0, 0.1);
+            color: #ff6b6b;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+        }
+
+        @media (max-width: 480px) {
+            .neumorphic-card {
+                padding: 1.5rem;
+            }
+            
+            .neumorphic-card__header {
+                font-size: 1.5rem;
+            }
+            
+            .btn-primary {
+                padding: 0.8rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+        const icon = togglePassword.querySelector('i');
+        
+        function updateToggleState() {
+            const type = passwordInput.getAttribute('type');
+            if (type === 'password') {
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+                togglePassword.style.boxShadow = '3px 3px 6px rgba(0, 0, 0, 0.1), -3px -3px 6px rgba(255, 255, 255, 0.8)';
+            } else {
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+                togglePassword.style.boxShadow = 'inset 2px 2px 4px rgba(0, 0, 0, 0.1), inset -2px -2px 4px rgba(255, 255, 255, 0.8)';
+            }
+        }
+        
+        if (togglePassword && passwordInput) {
+            // Initial state
+            updateToggleState();
+            
+            // Toggle password visibility on click
+            togglePassword.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                updateToggleState();
+                passwordInput.focus();
+            });
+            
+            // Add neumorphic effect on button press
+            togglePassword.addEventListener('mousedown', function() {
+                this.style.boxShadow = 'inset 3px 3px 6px rgba(0, 0, 0, 0.2), inset -3px -3px 6px rgba(255, 255, 255, 0.8)';
+            });
+            
+            togglePassword.addEventListener('mouseup', updateToggleState);
+            togglePassword.addEventListener('mouseleave', updateToggleState);
+            
+            // Add keyboard support
+            togglePassword.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.click();
+                }
+            });
+        }
+    });
+    </script>
+    <div class="neumorphic-card">
+        <div class="neumorphic-card__header">Login</div>
+        
+        {% if form.errors %}
+            <div class="error-message">
+                Your username and password didn't match. Please try again.
+            </div>
+        {% endif %}
+        
+        <form method="post" action="{% url 'tours:login' %}" class="neumorphic-form">
+            {% csrf_token %}
+            
+            <div class="neumorphic-input-wrapper">
+                <label for="username">Username or Email</label>
+                <input type="text" name="username" id="username" required>
+            </div>
+            
+            <div class="neumorphic-input-wrapper">
+                <label for="password">Password</label>
+                <div style="position: relative;">
+                    <input type="password" name="password" id="password" required style="padding-right: 50px;">
+                    <span class="password-toggle" id="togglePassword" title="Toggle Password Visibility">
+                        <i class="fas fa-eye"></i>
+                    </span>
+                </div>
+            </div>
+            
+            <input type="hidden" name="next" value="{{ next }}">
+            
+            <button type="submit" class="btn-primary">Sign In</button>
+            
+            <div class="auth-footer">
+                Don't have an account? <a href="{% url 'tours:register' %}">Register here</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,463 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="margin-top: 100px; padding: 20px;">
+    <!-- Hot Deals Section -->
+    {% if hot_deals %}
+    <section class="hot-deals">
+        <h2 style="text-align: center; margin-bottom: 30px; color: #39FF14;">🔥 Hot Deals of the Season 🔥</h2>
+        <div class="deals-grid">
+            {% for tour in hot_deals %}
+            <div class="deal-card" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);">
+                <div class="deal-badge">
+                    <span class="discount">{{ tour.discount }}% OFF</span>
+                    <span class="hot">HOT</span>
+                </div>
+                <img src="{{ tour.image_url }}" alt="{{ tour.title }}" class="deal-image">
+                <div class="deal-content">
+                    <h3>{{ tour.title }}</h3>
+                    <p class="destination">🌍 {{ tour.origin_country }} to {{ tour.destination_country }}</p>
+                    <p class="nights">⏱️ {{ tour.number_of_nights }} Nights</p>
+                    <div class="price-container">
+                        <span class="original-price">₹{{ tour.price }}</span>
+                        <span class="discounted-price">₹{{ tour.get_discounted_price|floatformat:0 }}</span>
+                    </div>
+                    <p class="category {{ tour.category }}">{{ tour.get_category_display }}</p>
+                    <button class="book-now">Book Now</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- All Tours Section -->
+    <section class="tours-section">
+        <h2 style="text-align: center; margin: 50px 0 30px; color: #39FF14;">
+            {% if category == 'all' %}
+                All Tour Packages
+            {% else %}
+                {{ category|title }} Tour Packages
+            {% endif %}
+        </h2>
+        
+        <div class="tours-grid">
+            {% for tour in tours %}
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <!-- Front of the Card -->
+                    <div class="flip-card-front">
+                        <div class="card-image" style="background-image: url('{{ tour.image_url }}');">
+                            <span class="category-badge {{ tour.category }}">{{ tour.get_category_display }}</span>
+                            {% if tour.is_hot_deal %}
+                            <span class="hot-badge">HOT</span>
+                            {% endif %}
+                        </div>
+                        <div class="card-content">
+                            <h3>{{ tour.title }}</h3>
+                            <p class="destination">🌍 {{ tour.origin_country }} to {{ tour.destination_country }}</p>
+                            <p class="description">{{ tour.description|truncatechars:100 }}</p>
+                            <div class="tour-meta">
+                                <span class="nights">⏱️ {{ tour.number_of_nights }} Nights</span>
+                                <span class="price">₹{{ tour.price|floatformat:0 }}</span>
+                            </div>
+                            {% if tour.is_hot_deal %}
+                            <div class="discount-banner">
+                                <span class="discount">{{ tour.discount }}% OFF</span>
+                                <span class="original-price">₹{{ tour.price|floatformat:0 }}</span>
+                                <span class="new-price">₹{{ tour.get_discounted_price|floatformat:0 }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Back of the Card -->
+                    <div class="flip-card-back">
+                        <div class="back-content">
+                            <h3>Tour Details</h3>
+                            <p><strong>Destination:</strong> {{ tour.destination_country }}</p>
+                            <p><strong>Duration:</strong> {{ tour.number_of_nights }} Nights</p>
+                            <p><strong>Price:</strong> ₹{{ tour.price|floatformat:0 }}</p>
+                            {% if tour.is_hot_deal %}
+                            <p class="hot-deal">🔥 Hot Deal! Save {{ tour.discount }}%</p>
+                            <p class="final-price">Only ₹{{ tour.get_discounted_price|floatformat:0 }}</p>
+                            {% endif %}
+                            <p class="description">{{ tour.description }}</p>
+                            <button class="book-now">Book Now</button>
+                            <button class="view-details" onclick="this.closest('.flip-card').classList.toggle('flipped')">Back to Front</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="flip-button" onclick="this.closest('.flip-card').classList.toggle('flipped')">View Details</button>
+            </div>
+            {% empty %}
+            <div class="no-tours">
+                <p>No tours available in this category.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+<style>
+    /* Flip Card Styles */
+    .flip-card {
+        perspective: 1000px;
+        width: 100%;
+        height: 500px;
+        position: relative;
+        margin-bottom: 60px;
+    }
+    
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+    }
+    
+    .flip-card.flipped .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+    
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        background: #1a1a1a;
+    }
+    
+    .flip-card-back {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+        color: white;
+        transform: rotateY(180deg);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .back-content {
+        padding: 20px;
+    }
+    
+    .flip-button {
+        position: absolute;
+        bottom: -45px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px 20px;
+        background: #39FF14;
+        color: #000;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        z-index: 2;
+    }
+    
+    .flip-button:hover {
+        background: #2acd00;
+    }
+    
+    .book-now {
+        background: #39FF14;
+        color: #000;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        margin: 10px 5px;
+        width: 80%;
+    }
+    
+    .hot-deal {
+        color: #FFD700;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+    
+    .final-price {
+        font-size: 1.5em;
+        color: #39FF14;
+        font-weight: bold;
+        margin: 10px 0 20px;
+    }
+    
+    /* Base Styles */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+    
+    /* Hot Deals Section */
+    .deals-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 25px;
+        margin-bottom: 50px;
+    }
+    
+    .deal-card {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        transition: transform 0.3s ease;
+        position: relative;
+    }
+    
+    .deal-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .deal-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        z-index: 2;
+    }
+    
+    .discount, .hot {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: bold;
+        text-align: center;
+    }
+    
+    .discount {
+        background: #ff4757;
+        color: white;
+    }
+    
+    .hot {
+        background: #ffa502;
+        color: #2f3542;
+    }
+    
+    .deal-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .deal-content {
+        padding: 20px;
+    }
+    
+    .deal-content h3 {
+        margin: 0 0 10px;
+        color: #fff;
+    }
+    
+    .destination, .nights {
+        margin: 5px 0;
+        color: #ddd;
+        font-size: 14px;
+    }
+    
+    .price-container {
+        margin: 15px 0;
+    }
+    
+    .original-price {
+        text-decoration: line-through;
+        color: #aaa;
+        margin-right: 10px;
+    }
+    
+    .discounted-price {
+        color: #39FF14;
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+    
+    .category {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+    
+    .economic { background: #2ecc71; color: #000; }
+    .moderate { background: #3498db; color: #fff; }
+    .luxury { background: #9b59b6; color: #fff; }
+    
+    .book-now {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        background: #39FF14;
+        color: #000;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .book-now:hover {
+        background: #2acd00;
+        transform: translateY(-2px);
+    }
+    
+    /* Tours Grid */
+    .tours-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+        margin-top: 30px;
+    }
+    
+    .tour-card {
+        background: #1a1a1a;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .tour-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    
+    .card-image {
+        height: 180px;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+    }
+    
+    .category-badge, .hot-badge {
+        position: absolute;
+        padding: 5px 12px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: bold;
+        color: white;
+    }
+    
+    .category-badge {
+        bottom: 15px;
+        left: 15px;
+    }
+    
+    .hot-badge {
+        top: 15px;
+        right: 15px;
+        background: #ff4757;
+    }
+    
+    .card-content {
+        padding: 20px;
+    }
+    
+    .card-content h3 {
+        margin: 0 0 10px;
+        color: #fff;
+        font-size: 1.2em;
+    }
+    
+    .destination, .description, .nights {
+        color: #ddd;
+        font-size: 14px;
+        margin: 5px 0;
+    }
+    
+    .description {
+        margin: 10px 0 15px;
+        color: #aaa;
+    }
+    
+    .tour-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 15px 0;
+    }
+    
+    .price {
+        font-size: 1.3em;
+        font-weight: bold;
+        color: #39FF14;
+    }
+    
+    .discount-banner {
+        background: rgba(255, 71, 87, 0.1);
+        padding: 8px 12px;
+        border-radius: 5px;
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .discount-banner .discount {
+        background: #ff4757;
+        padding: 2px 8px;
+        border-radius: 10px;
+        font-size: 12px;
+        color: white;
+    }
+    
+    .original-price {
+        text-decoration: line-through;
+        color: #aaa;
+        font-size: 0.9em;
+    }
+    
+    .new-price {
+        color: #39FF14;
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+    
+    .view-details {
+        width: 100%;
+        padding: 10px;
+        background: transparent;
+        border: 2px solid #39FF14;
+        color: #39FF14;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .view-details:hover {
+        background: #39FF14;
+        color: #000;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .deals-grid, .tours-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .container {
+            margin-top: 80px;
+        }
+    }
+    
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .deals-grid, .tours-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
+{% endblock %}

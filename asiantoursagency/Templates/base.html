@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}World Tour{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Styles/style.css' %}?v=20250806">
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .alert {
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+        .alert-error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #1a1a1a;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 0 20px;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+            padding: 0 20px;
+        }
+        
+        .nav-brand a {
+            color: #39FF14;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        
+        .nav-links a, 
+        .welcome-msg {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #39FF14;
+        }
+        
+        /* Dropdown styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-toggle {
+            cursor: pointer;
+        }
+        
+        .dropdown-arrow {
+            font-size: 0.7em;
+            margin-left: 5px;
+        }
+        
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            background-color: #2a2a2a;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+            border-radius: 4px;
+            padding: 10px 0;
+            top: 100%;
+            left: 0;
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        
+        .dropdown-menu a {
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+        
+        .dropdown-menu a:hover {
+            background-color: #39FF14;
+            color: #000;
+        }
+        
+        .nav-links a.active {
+            color: #39FF14;
+            font-weight: 500;
+        }
+        
+        .profile-link {
+            color: #ff6b6b !important;
+        }
+        
+        .logout-form {
+            display: inline;
+            margin: 0;
+        }
+        
+        .logout-btn {
+            background: #39FF14;
+            color: #000;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background: #2acd00;
+            transform: translateY(-2px);
+        }
+        
+        .register-btn {
+            background: #39FF14;
+            color: #000 !important;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .register-btn:hover {
+            background: #2acd00;
+            transform: translateY(-2px);
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #fff;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+        
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: #1a1a1a;
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+        }
+        .main-content {
+            margin-top: 70px;
+            padding: 0 20px;
+        }
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .nav-brand {
+            color: #39FF14;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        .nav-welcome {
+            color: #fff;
+        }
+        .nav-link {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .nav-link:hover {
+            color: #39FF14;
+        }
+        .nav-link.active {
+            color: #39FF14;
+            font-weight: bold;
+        }
+        .btn-logout {
+            background-color: #39FF14;
+            color: black;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .btn-logout:hover {
+            opacity: 0.9;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/f7HQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="{% url 'tours:home' %}">TourAgency</a>
+            </div>
+            
+            <div class="nav-links">
+                {% if user.is_authenticated %}
+                    <span class="welcome-msg">Welcome, {{ user.username }}</span>
+                    <a href="{% url 'tours:home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle">Tours <span class="dropdown-arrow">▼</span></a>
+                        <div class="dropdown-menu">
+                            <a href="{% url 'tours:data' %}?category=all" class="{% if request.GET.category == 'all' or not request.GET.category %}active{% endif %}">All Tours</a>
+                            <a href="{% url 'tours:hot-deals' %}" class="{% if request.resolver_match.url_name == 'hot-deals' %}active{% endif %}">🔥 Hot Deals</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="{% url 'tours:data' %}?category=economic" class="{% if request.GET.category == 'economic' %}active{% endif %}">Economic</a>
+                            <a href="{% url 'tours:data' %}?category=moderate" class="{% if request.GET.category == 'moderate' %}active{% endif %}">Moderate</a>
+                            <a href="{% url 'tours:data' %}?category=luxury" class="{% if request.GET.category == 'luxury' %}active{% endif %}">Luxury</a>
+                        </div>
+                    </div>
+                    <a href="{% url 'tours:contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a>
+                    <a href="{% url 'tours:protected' %}" class="profile-link {% if request.resolver_match.url_name == 'protected' %}active{% endif %}">Profile</a>
+                    <form action="{% url 'tours:logout' %}" method="post" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'tours:login' %}">Login</a>
+                    <a href="{% url 'tours:register' %}" class="register-btn">Register</a>
+                {% endif %}
+            </div>
+            
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer style="background:#181818;color:#fff;text-align:center;padding:20px 0;margin-top:30px;">
+        &copy; 2025 WorldTour. All rights reserved.
+    </footer>
+
+    <script>
+        // Auto-hide success messages after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                if (alert.classList.contains('alert-success')) {
+                    setTimeout(function() {
+                        alert.style.transition = 'opacity 0.5s';
+                        alert.style.opacity = '0';
+                        setTimeout(function() {
+                            alert.remove();
+                        }, 500);
+                    }, 5000);
+                }
+            });
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+    
+    <!-- Navigation JS -->
+    <script src="{% static 'js/navigation.js' %}"></script>
+</body>
+</html>

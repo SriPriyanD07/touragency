@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="cost-tier-select" style="max-width:500px;margin:40px auto;padding:32px 24px;background:#fff;border-radius:12px;box-shadow:0 2px 12px #0002;text-align:center;">
+    <h2>Select Cost Tier for {{ orgin_country }} → {{ destination_country }}</h2>
+    <p><strong>Mode of Transport:</strong> {{ mode_of_transport }}</p>
+    <p><strong>Number of Nights:</strong> {{ number_of_nights }}</p>
+    <div style="margin:30px 0;">
+        <a href="{% url 'cost-tier-detail' tour_id 'economic' %}" class="btn" style="background:#3cb371;color:#fff;">Economic</a>
+        <a href="{% url 'cost-tier-detail' tour_id 'moderate' %}" class="btn" style="background:#2196f3;color:#fff;">Moderate</a>
+        <a href="{% url 'cost-tier-detail' tour_id 'luxury' %}" class="btn" style="background:#ffd700;color:#333;">Luxury</a>
+    </div>
+    <div style="margin-top:40px;font-size:1.1em;color:#666;">
+        <strong>What do these mean?</strong><br>
+        <ul style="text-align:left;margin:20px auto;max-width:400px;">
+            <li><strong>Economic:</strong> Budget airlines or economy-class trains/flights</li>
+            <li><strong>Moderate:</strong> Standard class (direct flights, better airlines, inclusive check-in baggage)</li>
+            <li><strong>Luxury:</strong> Business class, VIP transfers, priority check-in, premium seats</li>
+        </ul>
+    </div>
+    <div style="margin:32px 0 0 0;">
+        <a href="/data" class="btn" style="background:#333;color:#fff;">Back to Tours</a>
+    </div>
+</div>
+{% endblock %}
